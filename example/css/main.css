@@ -102,21 +102,21 @@ h2 {
   margin-left: auto;
   margin-right: auto; }
 
-.Collapsable {
+.Collapsible {
   background-color: white; }
 
-.Collapsable__contentInner {
+.Collapsible__contentInner {
   padding: 10px;
   border: 1px solid #ebebeb;
   border-top: 0; }
-  .Collapsable__contentInner p {
+  .Collapsible__contentInner p {
     margin-bottom: 10px;
     font-size: 14px;
     line-height: 20px; }
-    .Collapsable__contentInner p:last-child {
+    .Collapsible__contentInner p:last-child {
       margin-bottom: 0; }
 
-.Collapsable__trigger {
+.Collapsible__trigger {
   display: block;
   font-weight: 400;
   text-decoration: none;
@@ -126,7 +126,7 @@ h2 {
   padding: 10px;
   background: #00ac9d;
   color: white; }
-  .Collapsable__trigger:after {
+  .Collapsible__trigger:after {
     font-family: 'FontAwesome';
     content: '\f107';
     position: absolute;
@@ -134,5 +134,5 @@ h2 {
     top: 10px;
     display: block;
     transition: transform 300ms; }
-  .Collapsable__trigger.is-open:after {
+  .Collapsible__trigger.is-open:after {
     transform: rotateZ(180deg); }

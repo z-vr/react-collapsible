@@ -17,7 +17,7 @@ var Collapsable = React.createClass({
       transitionTime: 400,
       easing: 'linear',
       startOpen: false,
-      classParentString: 'Collapsable'
+      classParentString: 'Collapsible'
     };
   },
 
@@ -108,7 +108,7 @@ var Collapsable = React.createClass({
     var dropdownStyle = {
       height: this.state.height,
       transition: this.state.transition,
-      overflow: 'hidden' 
+      overflow: 'hidden'
     }
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';

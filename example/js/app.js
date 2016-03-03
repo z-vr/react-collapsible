@@ -19240,7 +19240,7 @@ var Collapsable = _react2.default.createClass({
       transitionTime: 400,
       easing: 'linear',
       startOpen: false,
-      classParentString: 'Collapsable'
+      classParentString: 'Collapsible'
     };
   },
 
