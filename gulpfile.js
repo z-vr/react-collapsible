@@ -27,10 +27,20 @@ gulp.task('jsx', function(cb) {
 
 });
 
+gulp.task('build', function(cb){
+  var props = {
+    entries: [ 'example/_src/jsx/app.js'],
+    debug : false,
+    transform:  [babelify]
+  };
+
+
+});
+
 //Builds ES6 into ES5 (Specific for searchapp for now)
 function buildScript(file, watch) {
   var props = {
-    entries: [ 'assets/_src/jsx/app.js'],
+    entries: [ 'example/_src/jsx/app.js'],
     debug : false,
     transform:  [babelify]
   };
@@ -44,12 +54,12 @@ function buildScript(file, watch) {
     return stream
       .on('error', handleErrors)
       .pipe(source(file))
-      // .pipe(gulp.dest(assetsDir + '/js/'))
+      // .pipe(gulp.dest(exampleDir + '/js/'))
       // If you also want to uglify it
       .pipe(buffer())
       // .pipe(uglify())
       .pipe(rename('app.js'))
-      .pipe(gulp.dest('assets/js/'))
+      .pipe(gulp.dest('example/js/'))
       // .pipe(reload({stream:true}))
   }
 
@@ -74,19 +84,19 @@ function handleErrors() {
 
 gulp.task('sass', function(cb) {
 
-  return gulp.src(['assets/_src/sass/main.scss'])
+  return gulp.src(['example/_src/sass/main.scss'])
   .pipe(plumber({
       errorHandler: onError
     }))
   .pipe(sass())
-  .pipe(gulp.dest('assets/css'));
+  .pipe(gulp.dest('example/css'));
 
 });
 
 gulp.task('watch', function(cb) {
 
-  gulp.watch( 'assets/_src/jsx/**/*.js', ['jsx']);
-  gulp.watch( 'assets/_src/sass/**/*.scss', ['sass']);
+  gulp.watch( ['example/_src/jsx/**/*.js', 'src/*js'], ['jsx']);
+  gulp.watch( 'example/_src/sass/**/*.scss', ['sass']);
 
 });
 
@@ -94,7 +104,7 @@ gulp.task('browser-sync', function() {
     browserSync.init({
         logLevel: "debug",
         server: {
-            baseDir: '.'
+            baseDir: './example'
         }
     });
 });

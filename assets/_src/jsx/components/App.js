@@ -1,5 +1,5 @@
 import React from 'react';
-import Collapsable from './Collapsable';
+import Collapsable from './../../../build/Collapsable';
 
 
 var App = React.createClass({
