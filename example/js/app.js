@@ -19264,13 +19264,30 @@ var Collapsible = _react2.default.createClass({
     }
   },
 
+  // Taken from https://github.com/EvandroLG/transitionEnd/
+  // Determines which prefixed event to listen for
+  whichTransitionEnd: function whichTransitionEnd(element) {
+    var transitions = {
+      'WebkitTransition': 'webkitTransitionEnd',
+      'MozTransition': 'transitionend',
+      'OTransition': 'oTransitionEnd otransitionend',
+      'transition': 'transitionend'
+    };
+
+    for (var t in transitions) {
+      if (element.style[t] !== undefined) {
+        return transitions[t];
+      }
+    }
+  },
+
   componentDidMount: function componentDidMount() {
     var _this = this;
 
     //Set up event listener to listen to transitionend so we can switch the height from fixed pixel to auto for much responsiveness;
     //TODO:  Once Synthetic transitionend events have been exposed in the next release of React move this funciton to a function handed to the onTransitionEnd prop
 
-    this.refs.outer.addEventListener('transitionend', function (event) {
+    this.refs.outer.addEventListener(this.whichTransitionEnd(this.refs.outer), function (event) {
       if (_this.state.isClosed === false) {
         _this.setState({
           shouldSwitchAutoOnNextCycle: true
@@ -19328,6 +19345,8 @@ var Collapsible = _react2.default.createClass({
 
     var dropdownStyle = {
       height: this.state.height,
+      WebkitTransition: this.state.transition,
+      msTransition: this.state.transition,
       transition: this.state.transition,
       overflow: 'hidden'
     };
