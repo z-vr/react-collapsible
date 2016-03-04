@@ -1,6 +1,6 @@
 import React from 'react';
 
-var Collapsable = React.createClass({
+var Collapsible = React.createClass({
 
   //Set validation for prop types
   propTypes: {
@@ -127,4 +127,4 @@ var Collapsable = React.createClass({
 
 });
 
-export default Collapsable;
+export default Collapsible;

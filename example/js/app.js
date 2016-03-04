@@ -19221,8 +19221,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Collapsable = _react2.default.createClass({
-  displayName: 'Collapsable',
+var Collapsible = _react2.default.createClass({
+  displayName: 'Collapsible',
 
 
   //Set validation for prop types
@@ -19356,6 +19356,6 @@ var Collapsable = _react2.default.createClass({
 
 });
 
-exports.default = Collapsable;
+exports.default = Collapsible;
 
 },{"react":160}]},{},[1]);
