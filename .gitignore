@@ -1,1 +1,3 @@
-"dist/Collapsible.js"
+dist/Collapsible.js
+node_modules
+.DS_Store
