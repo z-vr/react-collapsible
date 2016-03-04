@@ -9,7 +9,7 @@
     "collapsible",
     "accordion"
   ],
-  "main": "build/Collapsible.js",
+  "main": "dist/Collapsible.js",
   "author": "Glenn Flanagan <glenn@arctictiger.co.uk>",
   "license": "MIT",
   "devDependencies": {
