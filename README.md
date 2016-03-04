@@ -69,19 +69,19 @@ By default the parent CSS class name is `.Collapsible` but this can be changed b
 The CSS class names follow a [type of BEM pattern](http://getbem.com/introduction/) of CSS naming. Below is a list of the CSS classes available on the component.  
 
 
-### `.Collapsable`
+### `.Collapsible`
 The parent element for the components.
 
-### `.Collapsable__trigger`
+### `.Collapsible__trigger`
 The trigger link that controls the opening and closing of the component.
 The state of the component is also reflected on this element with the modifier classes;
 - `is-closed` | Closed state
 - `is-open` | Open setState
 
-### `.Collapsable__contentOuter`
+### `.Collapsible__contentOuter`
 The outer container that hides the content. This is set to `overflow: hidden` within the javascript but everything else about it is for you to change.
 
-### `.Collapsable__contentInner`
+### `.Collapsible__contentInner`
 This is a container for the content passed into the compoenent. This keeps everything nice and neat and allows the component to do all it's whizzy calculations.
 
 
