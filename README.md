@@ -12,6 +12,8 @@ Installation can be achieved via NPM.
 npm install react-collapsible
 ```
 
+Alternatively just download the `Collapsible.js` file form the `src` folder and include it in your project in your chosen way.
+
 ## Usage
 Collapsible can receive any HTML elements or React component as it's children. Collapsible will wrap the contents, as well as generate a trigger element which will control showing and hiding.
 
