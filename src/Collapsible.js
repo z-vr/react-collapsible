@@ -9,8 +9,10 @@ var Collapsible = React.createClass({
     triggerText: React.PropTypes.string.isRequired,
     triggerTextWhenOpen: React.PropTypes.string,
     easing: React.PropTypes.string,
-    startOpen: React.PropTypes.bool,
+    open: React.PropTypes.bool,
     classParentString: React.PropTypes.string,
+    accordionPosition: React.PropTypes.number,
+    handleTriggerClick: React.PropTypes.func
   },
 
   //If no transition time or easing is passed then default to this
@@ -18,7 +20,7 @@ var Collapsible = React.createClass({
     return {
       transitionTime: 400,
       easing: 'linear',
-      startOpen: false,
+      open: false,
       classParentString: 'Collapsible'
     };
   },
@@ -26,7 +28,7 @@ var Collapsible = React.createClass({
   //Defaults the dropdown to be closed
   getInitialState: function(){
 
-    if(this.props.startOpen){
+    if(this.props.open){
       return {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
@@ -75,51 +77,84 @@ var Collapsible = React.createClass({
     });
   },
 
-  componentDidUpdate: function() {
-
+  componentDidUpdate: function(prevProps) {
 
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
       //This way the dropdown will be responsive and also change height if there is another dropdown within it.
-      this.setState({
-        height: 'auto',
-        transition: 'none',
-        shouldSwitchAutoOnNextCycle: false
-      });
+      this.makeResponsive();
     }
 
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
+      this.prepareToOpen();
+    }
 
-      //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
-      window.setTimeout(() => {
-        this.setState({
-          height: 0,
-          shouldSwitchAutoOnNextCycle: false,
-          transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
-        });
-      }, 50);
+    //If there has been a change in the open prop (controlled by accordion)
+    if(prevProps.open != this.props.open) {
+      console.log('Open state changed!', this.props.accordionPosition);
+
+      if(this.props.open === true) {
+        this.openCollasible();
+      }
+      else {
+        this.closeCollapsible();
+      }
     }
   },
+
 
   handleTriggerClick: function(event) {
 
     event.preventDefault();
 
-    if(this.state.isClosed === true){
-      this.setState({
-        height: this.refs.inner.offsetHeight,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-        isClosed: false
-      });
+    if(this.props.handleTriggerClick) {
+      this.props.handleTriggerClick(this.props.accordionPosition);
     }
-    else {
-      this.setState({
-        isClosed: true,
-        shouldSwitchAutoOnNextCycle: true,
-        height: this.refs.inner.offsetHeight
-      });
+    else{
+
+      if(this.state.isClosed === true){
+        this.openCollasible();
+      }
+      else {
+        this.closeCollapsible();
+      }
     }
 
+  },
+
+  closeCollapsible: function() {
+    this.setState({
+      isClosed: true,
+      shouldSwitchAutoOnNextCycle: true,
+      height: this.refs.inner.offsetHeight
+    });
+  },
+
+  openCollasible: function() {
+    this.setState({
+      height: this.refs.inner.offsetHeight,
+      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      isClosed: false
+    });
+  },
+
+  makeResponsive: function() {
+    this.setState({
+      height: 'auto',
+      transition: 'none',
+      shouldSwitchAutoOnNextCycle: false
+    });
+  },
+
+  prepareToOpen: function() {
+    //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
+    window.setTimeout(() => {
+      this.setState({
+        height: 0,
+        shouldSwitchAutoOnNextCycle: false,
+        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
+      });
+    }, 50);
   },
 
   render: function () {

@@ -88,7 +88,7 @@ var App = _react2.default.createClass({
           ),
           _react2.default.createElement(
             _Collapsible2.default,
-            { triggerText: 'But this one is open by default!', startOpen: true },
+            { triggerText: 'But this one is open by default!', open: true },
             _react2.default.createElement(
               'p',
               null,
@@ -97,7 +97,7 @@ var App = _react2.default.createClass({
             _react2.default.createElement(
               'p',
               null,
-              'You can pass the prop of startOpen={true} which will make the Collapsible open by default.'
+              'You can pass the prop of open={true} which will make the Collapsible open by default.'
             )
           ),
           _react2.default.createElement(
@@ -19231,8 +19231,10 @@ var Collapsible = _react2.default.createClass({
     triggerText: _react2.default.PropTypes.string.isRequired,
     triggerTextWhenOpen: _react2.default.PropTypes.string,
     easing: _react2.default.PropTypes.string,
-    startOpen: _react2.default.PropTypes.bool,
-    classParentString: _react2.default.PropTypes.string
+    open: _react2.default.PropTypes.bool,
+    classParentString: _react2.default.PropTypes.string,
+    accordionPosition: _react2.default.PropTypes.number,
+    handleTriggerClick: _react2.default.PropTypes.func
   },
 
   //If no transition time or easing is passed then default to this
@@ -19240,7 +19242,7 @@ var Collapsible = _react2.default.createClass({
     return {
       transitionTime: 400,
       easing: 'linear',
-      startOpen: false,
+      open: false,
       classParentString: 'Collapsible'
     };
   },
@@ -19248,7 +19250,7 @@ var Collapsible = _react2.default.createClass({
   //Defaults the dropdown to be closed
   getInitialState: function getInitialState() {
 
-    if (this.props.startOpen) {
+    if (this.props.open) {
       return {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
@@ -19297,29 +19299,27 @@ var Collapsible = _react2.default.createClass({
     });
   },
 
-  componentDidUpdate: function componentDidUpdate() {
-    var _this2 = this;
+  componentDidUpdate: function componentDidUpdate(prevProps) {
 
     if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
       //This way the dropdown will be responsive and also change height if there is another dropdown within it.
-      this.setState({
-        height: 'auto',
-        transition: 'none',
-        shouldSwitchAutoOnNextCycle: false
-      });
+      this.makeResponsive();
     }
 
     if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
+      this.prepareToOpen();
+    }
 
-      //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
-      window.setTimeout(function () {
-        _this2.setState({
-          height: 0,
-          shouldSwitchAutoOnNextCycle: false,
-          transition: 'height ' + _this2.props.transitionTime + 'ms ' + _this2.props.easing
-        });
-      }, 50);
+    //If there has been a change in the open prop (controlled by accordion)
+    if (prevProps.open != this.props.open) {
+      console.log('Open state changed!', this.props.accordionPosition);
+
+      if (this.props.open === true) {
+        this.openCollasible();
+      } else {
+        this.closeCollapsible();
+      }
     }
   },
 
@@ -19327,19 +19327,53 @@ var Collapsible = _react2.default.createClass({
 
     event.preventDefault();
 
-    if (this.state.isClosed === true) {
-      this.setState({
-        height: this.refs.inner.offsetHeight,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-        isClosed: false
-      });
+    if (this.props.handleTriggerClick) {
+      this.props.handleTriggerClick(this.props.accordionPosition);
     } else {
-      this.setState({
-        isClosed: true,
-        shouldSwitchAutoOnNextCycle: true,
-        height: this.refs.inner.offsetHeight
-      });
+
+      if (this.state.isClosed === true) {
+        this.openCollasible();
+      } else {
+        this.closeCollapsible();
+      }
     }
+  },
+
+  closeCollapsible: function closeCollapsible() {
+    this.setState({
+      isClosed: true,
+      shouldSwitchAutoOnNextCycle: true,
+      height: this.refs.inner.offsetHeight
+    });
+  },
+
+  openCollasible: function openCollasible() {
+    this.setState({
+      height: this.refs.inner.offsetHeight,
+      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      isClosed: false
+    });
+  },
+
+  makeResponsive: function makeResponsive() {
+    this.setState({
+      height: 'auto',
+      transition: 'none',
+      shouldSwitchAutoOnNextCycle: false
+    });
+  },
+
+  prepareToOpen: function prepareToOpen() {
+    var _this2 = this;
+
+    //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
+    window.setTimeout(function () {
+      _this2.setState({
+        height: 0,
+        shouldSwitchAutoOnNextCycle: false,
+        transition: 'height ' + _this2.props.transitionTime + 'ms ' + _this2.props.easing
+      });
+    }, 50);
   },
 
   render: function render() {
