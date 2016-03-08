@@ -9,8 +9,10 @@ var Collapsible = React.createClass({
     triggerText: React.PropTypes.string.isRequired,
     triggerTextWhenOpen: React.PropTypes.string,
     easing: React.PropTypes.string,
-    startOpen: React.PropTypes.bool,
+    open: React.PropTypes.bool,
     classParentString: React.PropTypes.string,
+    accordionPosition: React.PropTypes.number,
+    handleTriggerClick: React.PropTypes.func
   },
 
   //If no transition time or easing is passed then default to this
@@ -18,7 +20,7 @@ var Collapsible = React.createClass({
     return {
       transitionTime: 400,
       easing: 'linear',
-      startOpen: false,
+      open: false,
       classParentString: 'Collapsible'
     };
   },
@@ -26,7 +28,7 @@ var Collapsible = React.createClass({
   //Defaults the dropdown to be closed
   getInitialState: function(){
 
-    if(this.props.startOpen){
+    if(this.props.open){
       return {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
@@ -75,7 +77,7 @@ var Collapsible = React.createClass({
     });
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate: function(prevProps) {
 
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
@@ -86,17 +88,36 @@ var Collapsible = React.createClass({
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
       this.prepareToOpen();
     }
+
+    //If there has been a change in the open prop (controlled by accordion)
+    if(prevProps.open != this.props.open) {
+      console.log('Open state changed!', this.props.accordionPosition);
+
+      if(this.props.open === true) {
+        this.openCollasible();
+      }
+      else {
+        this.closeCollapsible();
+      }
+    }
   },
+
 
   handleTriggerClick: function(event) {
 
     event.preventDefault();
 
-    if(this.state.isClosed === true){
-      this.openCollasible();
+    if(this.props.handleTriggerClick) {
+      this.props.handleTriggerClick(this.props.accordionPosition);
     }
-    else {
-      this.closeCollapsible();
+    else{
+
+      if(this.state.isClosed === true){
+        this.openCollasible();
+      }
+      else {
+        this.closeCollapsible();
+      }
     }
 
   },

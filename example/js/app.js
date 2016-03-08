@@ -88,7 +88,7 @@ var App = _react2.default.createClass({
           ),
           _react2.default.createElement(
             _Collapsible2.default,
-            { triggerText: 'But this one is open by default!', startOpen: true },
+            { triggerText: 'But this one is open by default!', open: true },
             _react2.default.createElement(
               'p',
               null,
@@ -97,7 +97,7 @@ var App = _react2.default.createClass({
             _react2.default.createElement(
               'p',
               null,
-              'You can pass the prop of startOpen={true} which will make the Collapsible open by default.'
+              'You can pass the prop of open={true} which will make the Collapsible open by default.'
             )
           ),
           _react2.default.createElement(
@@ -19231,8 +19231,10 @@ var Collapsible = _react2.default.createClass({
     triggerText: _react2.default.PropTypes.string.isRequired,
     triggerTextWhenOpen: _react2.default.PropTypes.string,
     easing: _react2.default.PropTypes.string,
-    startOpen: _react2.default.PropTypes.bool,
-    classParentString: _react2.default.PropTypes.string
+    open: _react2.default.PropTypes.bool,
+    classParentString: _react2.default.PropTypes.string,
+    accordionPosition: _react2.default.PropTypes.number,
+    handleTriggerClick: _react2.default.PropTypes.func
   },
 
   //If no transition time or easing is passed then default to this
@@ -19240,7 +19242,7 @@ var Collapsible = _react2.default.createClass({
     return {
       transitionTime: 400,
       easing: 'linear',
-      startOpen: false,
+      open: false,
       classParentString: 'Collapsible'
     };
   },
@@ -19248,7 +19250,7 @@ var Collapsible = _react2.default.createClass({
   //Defaults the dropdown to be closed
   getInitialState: function getInitialState() {
 
-    if (this.props.startOpen) {
+    if (this.props.open) {
       return {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
@@ -19297,7 +19299,7 @@ var Collapsible = _react2.default.createClass({
     });
   },
 
-  componentDidUpdate: function componentDidUpdate() {
+  componentDidUpdate: function componentDidUpdate(prevProps) {
 
     if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
@@ -19308,16 +19310,32 @@ var Collapsible = _react2.default.createClass({
     if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
       this.prepareToOpen();
     }
+
+    //If there has been a change in the open prop (controlled by accordion)
+    if (prevProps.open != this.props.open) {
+      console.log('Open state changed!', this.props.accordionPosition);
+
+      if (this.props.open === true) {
+        this.openCollasible();
+      } else {
+        this.closeCollapsible();
+      }
+    }
   },
 
   handleTriggerClick: function handleTriggerClick(event) {
 
     event.preventDefault();
 
-    if (this.state.isClosed === true) {
-      this.openCollasible();
+    if (this.props.handleTriggerClick) {
+      this.props.handleTriggerClick(this.props.accordionPosition);
     } else {
-      this.closeCollapsible();
+
+      if (this.state.isClosed === true) {
+        this.openCollasible();
+      } else {
+        this.closeCollapsible();
+      }
     }
   },
 

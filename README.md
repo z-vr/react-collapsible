@@ -60,8 +60,8 @@ The number of milliseconds for the open/close transition to take.
 ### `easing` | *string* | default: 'liner'
 The CSS easing method you wish to apply to the open/close transition. This string can be any valid value of CSS `transition-timing-function`. For reference view the [MDN documentation](https://developer.mozilla.org/en/docs/Web/CSS/transition-timing-function).
 
-### `startOpen` | *bool* | default: false
-Set to true if you want the Collapsible to begin in the open state.
+### `open` | *bool* | default: false
+Set to true if you want the Collapsible to begin in the open state. You can also use this prop to manage the state from a parent component.
 
 ### `classParentString` | *string* | default: Collapsible
 Use this to overwrite the parent CSS class for the Collapsible component parts. Read more in the CSS section below.

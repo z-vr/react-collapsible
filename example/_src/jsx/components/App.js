@@ -24,9 +24,9 @@ var App = React.createClass({
             <Collapsible triggerText="This is just another Collapsible">
               <p>It just keeps going and going! Well, actually we've stopped here. But that's only because I'm running out of things to type.</p>
             </Collapsible>
-            <Collapsible triggerText="But this one is open by default!" startOpen={true}>
+            <Collapsible triggerText="But this one is open by default!" open={true}>
               <p>And would you look at that! This one is open by default. Sexy huh!?</p>
-              <p>You can pass the prop of startOpen=&#123;true&#125; which will make the Collapsible open by default.</p>
+              <p>You can pass the prop of open=&#123;true&#125; which will make the Collapsible open by default.</p>
             </Collapsible>
             <Collapsible triggerText="That's not all. Check out the speed of this one" transitionTime={100}>
               <p>Whoosh! That was fast right?</p>
