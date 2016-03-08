@@ -77,27 +77,14 @@ var Collapsible = React.createClass({
 
   componentDidUpdate: function() {
 
-
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
       //This way the dropdown will be responsive and also change height if there is another dropdown within it.
-      this.setState({
-        height: 'auto',
-        transition: 'none',
-        shouldSwitchAutoOnNextCycle: false
-      });
+      this.makeResponsive();
     }
 
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
-
-      //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
-      window.setTimeout(() => {
-        this.setState({
-          height: 0,
-          shouldSwitchAutoOnNextCycle: false,
-          transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
-        });
-      }, 50);
+      this.prepareToOpen();
     }
   },
 
@@ -106,20 +93,47 @@ var Collapsible = React.createClass({
     event.preventDefault();
 
     if(this.state.isClosed === true){
-      this.setState({
-        height: this.refs.inner.offsetHeight,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-        isClosed: false
-      });
+      this.openCollasible();
     }
     else {
-      this.setState({
-        isClosed: true,
-        shouldSwitchAutoOnNextCycle: true,
-        height: this.refs.inner.offsetHeight
-      });
+      this.closeCollapsible();
     }
 
+  },
+
+  closeCollapsible: function() {
+    this.setState({
+      isClosed: true,
+      shouldSwitchAutoOnNextCycle: true,
+      height: this.refs.inner.offsetHeight
+    });
+  },
+
+  openCollasible: function() {
+    this.setState({
+      height: this.refs.inner.offsetHeight,
+      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      isClosed: false
+    });
+  },
+
+  makeResponsive: function() {
+    this.setState({
+      height: 'auto',
+      transition: 'none',
+      shouldSwitchAutoOnNextCycle: false
+    });
+  },
+
+  prepareToOpen: function() {
+    //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
+    window.setTimeout(() => {
+      this.setState({
+        height: 0,
+        shouldSwitchAutoOnNextCycle: false,
+        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
+      });
+    }, 50);
   },
 
   render: function () {
