@@ -7,6 +7,7 @@ var Collapsible = React.createClass({
   propTypes: {
     transitionTime: React.PropTypes.number,
     triggerText: React.PropTypes.string.isRequired,
+    triggerTextWhenOpen: React.PropTypes.string,
     easing: React.PropTypes.string,
     startOpen: React.PropTypes.bool,
     classParentString: React.PropTypes.string,
@@ -133,9 +134,12 @@ var Collapsible = React.createClass({
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
 
+    //If user wants different text when tray is open
+    var triggerText = (this.state.isClosed === false) && (this.props.triggerTextWhenOpen !== undefined) ? this.props.triggerTextWhenOpen : this.props.triggerText;
+
     return(
       <div className={this.props.classParentString}>
-        <a href="#" className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{this.props.triggerText}</a>
+        <a href="#" className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{triggerText}</a>
         <div className={this.props.classParentString + "__contentOuter" } ref="outer" style={dropdownStyle}>
           <div className={this.props.classParentString + "__contentInner"} ref="inner">
             {this.props.children}
