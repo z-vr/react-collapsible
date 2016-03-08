@@ -51,6 +51,9 @@ With a little CSS becomes
 ### `triggerText` | *string* | **required**
 The text to appear in the trigger link.
 
+### `triggerTextWhenOpen` | *string*
+Optional trigger text to change to when the Collapsible is open.
+
 ### `transitionTime` | *number* | default: 400
 The number of milliseconds for the open/close transition to take.
 

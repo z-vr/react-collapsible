@@ -41,7 +41,7 @@ var App = React.createClass({
           <p>You can pass any string into the prop easing that you would declare in a CSS transition-timing-function. This means you have complete control over how that Collapsible appears.</p>
         </Collapsible>
 
-        <Collapsible transitionTime={400} triggerText="Oh and did I mention that I'm responsive?">
+        <Collapsible transitionTime={400} triggerText="Oh and did I mention that I'm responsive?" triggerTextWhenOpen="Plus you can change the trigger text when I'm open too">
           <p>That's correct. This collapsible section will animate to the height it needs to and then set it's height back to auto.</p>
           <p>This means that no matter what width you stretch that viewport to, the Collapsible it will respond to it.</p>
           <p>And no matter what height the content within it is, it will change height too.</p>

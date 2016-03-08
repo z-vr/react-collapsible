@@ -132,7 +132,7 @@ var App = _react2.default.createClass({
       ),
       _react2.default.createElement(
         _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'Oh and did I mention that I\'m responsive?' },
+        { transitionTime: 400, triggerText: 'Oh and did I mention that I\'m responsive?', triggerTextWhenOpen: 'Plus you can change the trigger text when I\'m open too' },
         _react2.default.createElement(
           'p',
           null,
@@ -19229,6 +19229,7 @@ var Collapsible = _react2.default.createClass({
   propTypes: {
     transitionTime: _react2.default.PropTypes.number,
     triggerText: _react2.default.PropTypes.string.isRequired,
+    triggerTextWhenOpen: _react2.default.PropTypes.string,
     easing: _react2.default.PropTypes.string,
     startOpen: _react2.default.PropTypes.bool,
     classParentString: _react2.default.PropTypes.string
@@ -19353,13 +19354,16 @@ var Collapsible = _react2.default.createClass({
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
 
+    //If user wants different text when tray is open
+    var triggerText = this.state.isClosed === false && this.props.triggerTextWhenOpen !== undefined ? this.props.triggerTextWhenOpen : this.props.triggerText;
+
     return _react2.default.createElement(
       'div',
       { className: this.props.classParentString },
       _react2.default.createElement(
         'a',
         { href: '#', className: this.props.classParentString + "__trigger" + ' ' + openClass, onClick: this.handleTriggerClick },
-        this.props.triggerText
+        triggerText
       ),
       _react2.default.createElement(
         'div',
