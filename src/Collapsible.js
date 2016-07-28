@@ -6,7 +6,6 @@ var Collapsible = React.createClass({
   //Set validation for prop types
   propTypes: {
     transitionTime: React.PropTypes.number,
-    triggerText: React.PropTypes.string.isRequired,
     triggerTextWhenOpen: React.PropTypes.string,
     easing: React.PropTypes.string,
     open: React.PropTypes.bool,
