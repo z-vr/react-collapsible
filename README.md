@@ -6,6 +6,10 @@ React component to wrap content in Collapsible element with trigger to open and 
 
 It's like an accordion, but where any number of sections can be open at the same time.
 
+## New in version 1.0.0
+* Trigger can now be a React Element as well as a string.
+
+
 ## Installation
 Installation can be achieved via NPM.
 ```
