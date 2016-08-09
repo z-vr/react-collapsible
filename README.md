@@ -66,6 +66,9 @@ Set to true if you want the Collapsible to begin in the open state. You can also
 ### `classParentString` | *string* | default: Collapsible
 Use this to overwrite the parent CSS class for the Collapsible component parts. Read more in the CSS section below.
 
+### `handleTriggerClick` | *function*
+Define this to override the click handler for the trigger link.
+
 ## CSS Styles
 In theory you don't need any CSS to get this to work, but let's face it, it'd be pretty rubbish without it.
 
