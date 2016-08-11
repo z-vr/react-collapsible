@@ -6,6 +6,10 @@ React component to wrap content in Collapsible element with trigger to open and 
 
 It's like an accordion, but where any number of sections can be open at the same time.
 
+## New in version 1.0.0
+* Trigger can now be a React Element as well as a string.
+
+
 ## Installation
 Installation can be achieved via NPM.
 ```
@@ -28,7 +32,7 @@ var App = React.createClass({
   render: function() {
     return(
 
-      <Collapsible triggerText="Start here">
+      <Collapsible trigger="Start here">
         <p>This is the collapsible content. It can be any element or React component you like.</p>
         <p>It can even be another Collapsible component. Check out the next section!</p>
       </Collapsible>
@@ -48,11 +52,11 @@ With a little CSS becomes
 
 ## Properties *(Options)*
 
-### `triggerText` | *string* | **required**
-The text to appear in the trigger link.
+### `trigger` | *string* or *React Element* | **required**
+The text or element to appear in the trigger link.
 
-### `triggerTextWhenOpen` | *string*
-Optional trigger text to change to when the Collapsible is open.
+### `triggerWhenOpen` | *string* or *React Element*
+Optional trigger text or element to change to when the Collapsible is open.
 
 ### `transitionTime` | *number* | default: 400
 The number of milliseconds for the open/close transition to take.
