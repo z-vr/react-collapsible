@@ -73,6 +73,9 @@ Use this to overwrite the parent CSS class for the Collapsible component parts. 
 ### `handleTriggerClick` | *function*
 Define this to override the click handler for the trigger link.
 
+### `lazyRender` | *bool* | default: false
+Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time 
+
 ## CSS Styles
 In theory you don't need any CSS to get this to work, but let's face it, it'd be pretty rubbish without it.
 
