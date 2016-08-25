@@ -44,7 +44,7 @@ var App = _react2.default.createClass({
       null,
       _react2.default.createElement(
         _Collapsible2.default,
-        { triggerText: 'Start here' },
+        { trigger: 'Start here' },
         _react2.default.createElement(
           'p',
           null,
@@ -58,7 +58,7 @@ var App = _react2.default.createClass({
       ),
       _react2.default.createElement(
         _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'Then try this one' },
+        { transitionTime: 400, trigger: 'Then try this one' },
         _react2.default.createElement(
           'p',
           null,
@@ -71,7 +71,7 @@ var App = _react2.default.createClass({
         ),
         _react2.default.createElement(
           _Collapsible2.default,
-          { triggerText: 'Mmmmm, it\'s all cosy nested here' },
+          { trigger: 'Mmmmm, it\'s all cosy nested here' },
           _react2.default.createElement(
             'p',
             null,
@@ -79,7 +79,7 @@ var App = _react2.default.createClass({
           ),
           _react2.default.createElement(
             _Collapsible2.default,
-            { triggerText: 'This is just another Collapsible' },
+            { trigger: 'This is just another Collapsible' },
             _react2.default.createElement(
               'p',
               null,
@@ -88,7 +88,7 @@ var App = _react2.default.createClass({
           ),
           _react2.default.createElement(
             _Collapsible2.default,
-            { triggerText: 'But this one is open by default!', open: true },
+            { trigger: 'But this one is open by default!', open: true },
             _react2.default.createElement(
               'p',
               null,
@@ -102,7 +102,7 @@ var App = _react2.default.createClass({
           ),
           _react2.default.createElement(
             _Collapsible2.default,
-            { triggerText: 'That\'s not all. Check out the speed of this one', transitionTime: 100 },
+            { trigger: 'That\'s not all. Check out the speed of this one', transitionTime: 100 },
             _react2.default.createElement(
               'p',
               null,
@@ -118,7 +118,7 @@ var App = _react2.default.createClass({
       ),
       _react2.default.createElement(
         _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'This one will blow your mind.', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)' },
+        { transitionTime: 400, trigger: 'This one will blow your mind.', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)' },
         _react2.default.createElement(
           'p',
           null,
@@ -132,7 +132,7 @@ var App = _react2.default.createClass({
       ),
       _react2.default.createElement(
         _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'Oh and did I mention that I\'m responsive?', triggerTextWhenOpen: 'Plus you can change the trigger text when I\'m open too' },
+        { transitionTime: 400, trigger: 'Oh and did I mention that I\'m responsive?', triggerWhenOpen: 'Plus you can change the trigger text when I\'m open too' },
         _react2.default.createElement(
           'p',
           null,
@@ -168,6 +168,27 @@ var App = _react2.default.createClass({
           null,
           'So by setting the prop of classParentString={"MyNamespacedClass"} then the top-level class will become MyNamespacedClass.'
         )
+      ),
+      _react2.default.createElement(
+        _Collapsible2.default,
+        { lazyRender: true, transitionTime: 600, trigger: 'What happens if there\'s a shed-load of content?', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'Add the prop of ',
+          _react2.default.createElement(
+            'strong',
+            { style: { fontWeight: 'bold' } },
+            'lazyRender'
+          ),
+          ' and the content will only be rendered when the trigger is pressed'
+        ),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=1' }),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=2' }),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=3' }),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=4' }),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=5' }),
+        _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=6' })
       )
     );
   }
@@ -1445,14 +1466,83 @@ module.exports = warning;
 }).call(this,require('_process'))
 },{"./emptyFunction":10,"_process":30}],30:[function(require,module,exports){
 // shim for using process in browser
-
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+    try {
+        cachedSetTimeout = setTimeout;
+    } catch (e) {
+        cachedSetTimeout = function () {
+            throw new Error('setTimeout is not defined');
+        }
+    }
+    try {
+        cachedClearTimeout = clearTimeout;
+    } catch (e) {
+        cachedClearTimeout = function () {
+            throw new Error('clearTimeout is not defined');
+        }
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -1468,7 +1558,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -1485,7 +1575,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -1497,7 +1587,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        runTimeout(drainQueue);
     }
 };
 
@@ -11155,6 +11245,10 @@ var ReactEmptyComponentInjection = {
   }
 };
 
+function registerNullComponentID() {
+  ReactEmptyComponentRegistry.registerNullComponentID(this._rootNodeID);
+}
+
 var ReactEmptyComponent = function (instantiate) {
   this._currentElement = null;
   this._rootNodeID = null;
@@ -11163,7 +11257,7 @@ var ReactEmptyComponent = function (instantiate) {
 assign(ReactEmptyComponent.prototype, {
   construct: function (element) {},
   mountComponent: function (rootID, transaction, context) {
-    ReactEmptyComponentRegistry.registerNullComponentID(rootID);
+    transaction.getReactMountReady().enqueue(registerNullComponentID, this);
     this._rootNodeID = rootID;
     return ReactReconciler.mountComponent(this._renderedComponent, rootID, transaction, context);
   },
@@ -15469,7 +15563,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.7';
+module.exports = '0.14.8';
 },{}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -19228,13 +19322,14 @@ var Collapsible = _react2.default.createClass({
   //Set validation for prop types
   propTypes: {
     transitionTime: _react2.default.PropTypes.number,
-    triggerText: _react2.default.PropTypes.string.isRequired,
-    triggerTextWhenOpen: _react2.default.PropTypes.string,
     easing: _react2.default.PropTypes.string,
     open: _react2.default.PropTypes.bool,
     classParentString: _react2.default.PropTypes.string,
     accordionPosition: _react2.default.PropTypes.number,
-    handleTriggerClick: _react2.default.PropTypes.func
+    handleTriggerClick: _react2.default.PropTypes.func,
+    trigger: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
+    triggerWhenOpen: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
+    lazyRender: _react2.default.PropTypes.bool
   },
 
   //If no transition time or easing is passed then default to this
@@ -19243,7 +19338,8 @@ var Collapsible = _react2.default.createClass({
       transitionTime: 400,
       easing: 'linear',
       open: false,
-      classParentString: 'Collapsible'
+      classParentString: 'Collapsible',
+      lazyRender: false
     };
   },
 
@@ -19255,14 +19351,16 @@ var Collapsible = _react2.default.createClass({
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
-        transition: 'none'
+        transition: 'none',
+        hasBeenOpened: true
       };
     } else {
       return {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
+        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+        hasBeenOpened: false
       };
     }
   },
@@ -19351,7 +19449,8 @@ var Collapsible = _react2.default.createClass({
     this.setState({
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-      isClosed: false
+      isClosed: false,
+      hasBeenOpened: true
     });
   },
 
@@ -19389,15 +19488,19 @@ var Collapsible = _react2.default.createClass({
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
 
     //If user wants different text when tray is open
-    var triggerText = this.state.isClosed === false && this.props.triggerTextWhenOpen !== undefined ? this.props.triggerTextWhenOpen : this.props.triggerText;
+    var trigger = this.state.isClosed === false && this.props.triggerWhenOpen !== undefined ? this.props.triggerWhenOpen : this.props.trigger;
+
+    // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
+    var children = this.props.children;
+    if (this.props.lazyRender) if (!this.state.hasBeenOpened) children = null;
 
     return _react2.default.createElement(
       'div',
       { className: this.props.classParentString },
       _react2.default.createElement(
-        'a',
-        { href: '#', className: this.props.classParentString + "__trigger" + ' ' + openClass, onClick: this.handleTriggerClick },
-        triggerText
+        'span',
+        { className: this.props.classParentString + "__trigger" + ' ' + openClass, onClick: this.handleTriggerClick },
+        trigger
       ),
       _react2.default.createElement(
         'div',
@@ -19405,7 +19508,7 @@ var Collapsible = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: this.props.classParentString + "__contentInner", ref: 'inner' },
-          this.props.children
+          children
         )
       )
     );

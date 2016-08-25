@@ -19,6 +19,7 @@ var Collapsible = React.createClass({
       React.PropTypes.string,
       React.PropTypes.element
     ]),
+    lazyRender: React.PropTypes.bool
   },
 
   //If no transition time or easing is passed then default to this
@@ -27,7 +28,8 @@ var Collapsible = React.createClass({
       transitionTime: 400,
       easing: 'linear',
       open: false,
-      classParentString: 'Collapsible'
+      classParentString: 'Collapsible',
+      lazyRender: false
     };
   },
 
@@ -39,7 +41,8 @@ var Collapsible = React.createClass({
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
-        transition: 'none'
+        transition: 'none',
+        hasBeenOpened: true
       }
     }
     else{
@@ -47,7 +50,8 @@ var Collapsible = React.createClass({
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
+        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+        hasBeenOpened: false
       }
     }
   },
@@ -140,7 +144,8 @@ var Collapsible = React.createClass({
     this.setState({
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-      isClosed: false
+      isClosed: false,
+      hasBeenOpened: true
     });
   },
 
@@ -178,12 +183,18 @@ var Collapsible = React.createClass({
     //If user wants different text when tray is open
     var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined) ? this.props.triggerWhenOpen : this.props.trigger;
 
+    // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
+    var children = this.props.children;
+    if(this.props.lazyRender)
+      if(!this.state.hasBeenOpened)
+          children = null;
+
     return(
       <div className={this.props.classParentString}>
         <span className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{trigger}</span>
         <div className={this.props.classParentString + "__contentOuter" } ref="outer" style={dropdownStyle}>
           <div className={this.props.classParentString + "__contentInner"} ref="inner">
-            {this.props.children}
+            {children}
           </div>
         </div>
       </div>
