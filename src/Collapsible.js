@@ -19,7 +19,16 @@ var Collapsible = React.createClass({
       React.PropTypes.string,
       React.PropTypes.element
     ]),
-    lazyRender: React.PropTypes.bool
+    lazyRender: React.PropTypes.bool,
+    overflowWhenOpen: React.PropTypes.oneOf([
+      'hidden',
+      'visible',
+      'auto',
+      'scroll',
+      'inherit',
+      'initial',
+      'unset'
+    ])
   },
 
   //If no transition time or easing is passed then default to this
@@ -29,7 +38,8 @@ var Collapsible = React.createClass({
       easing: 'linear',
       open: false,
       classParentString: 'Collapsible',
-      lazyRender: false
+      lazyRender: false,
+      overflowWhenOpen: 'hidden'
     };
   },
 
@@ -42,7 +52,8 @@ var Collapsible = React.createClass({
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
-        hasBeenOpened: true
+        hasBeenOpened: true,
+        overflow: this.props.overflowWhenOpen
       }
     }
     else{
@@ -51,7 +62,8 @@ var Collapsible = React.createClass({
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
         transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-        hasBeenOpened: false
+        hasBeenOpened: false,
+        overflow: 'hidden'
       }
     }
   },
@@ -136,7 +148,8 @@ var Collapsible = React.createClass({
     this.setState({
       isClosed: true,
       shouldSwitchAutoOnNextCycle: true,
-      height: this.refs.inner.offsetHeight
+      height: this.refs.inner.offsetHeight,
+      overflow: 'hidden',
     });
   },
 
@@ -153,7 +166,8 @@ var Collapsible = React.createClass({
     this.setState({
       height: 'auto',
       transition: 'none',
-      shouldSwitchAutoOnNextCycle: false
+      shouldSwitchAutoOnNextCycle: false,
+      overflow: this.props.overflowWhenOpen
     });
   },
 
@@ -175,7 +189,7 @@ var Collapsible = React.createClass({
       WebkitTransition: this.state.transition,
       msTransition: this.state.transition,
       transition: this.state.transition,
-      overflow: 'hidden'
+      overflow: this.state.overflow
     }
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';

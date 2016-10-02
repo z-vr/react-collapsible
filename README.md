@@ -79,6 +79,9 @@ Define this to override the click handler for the trigger link.
 ### `lazyRender` | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
 
+### `overflowWhenOpen` | *enum* | default: 'hidden'
+The CSS overflow property once the Collapsible is open. This can be any one of the valid CSS values of `'hidden'`, `'visible'`, `'auto'`, `'scroll'`, `'inherit'`, `'initial'`, or `'unset'`
+
 ## CSS Styles
 In theory you don't need any CSS to get this to work, but let's face it, it'd be pretty rubbish without it.
 

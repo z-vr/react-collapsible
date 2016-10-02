@@ -171,7 +171,7 @@ var App = _react2.default.createClass({
       ),
       _react2.default.createElement(
         _Collapsible2.default,
-        { lazyRender: true, transitionTime: 600, trigger: 'What happens if there\'s a shed-load of content?', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)' },
+        { lazyRender: true, transitionTime: 600, trigger: 'What happens if there\'s a shed-load of content?', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)', overflowWhenOpen: 'visible' },
         _react2.default.createElement(
           'p',
           null,
@@ -19329,7 +19329,8 @@ var Collapsible = _react2.default.createClass({
     handleTriggerClick: _react2.default.PropTypes.func,
     trigger: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
     triggerWhenOpen: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
-    lazyRender: _react2.default.PropTypes.bool
+    lazyRender: _react2.default.PropTypes.bool,
+    overflowWhenOpen: _react2.default.PropTypes.oneOf(['hidden', 'visible', 'auto', 'scroll', 'inherit', 'initial', 'unset'])
   },
 
   //If no transition time or easing is passed then default to this
@@ -19339,7 +19340,8 @@ var Collapsible = _react2.default.createClass({
       easing: 'linear',
       open: false,
       classParentString: 'Collapsible',
-      lazyRender: false
+      lazyRender: false,
+      overflowWhenOpen: 'hidden'
     };
   },
 
@@ -19352,7 +19354,8 @@ var Collapsible = _react2.default.createClass({
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
-        hasBeenOpened: true
+        hasBeenOpened: true,
+        overflow: this.props.overflowWhenOpen
       };
     } else {
       return {
@@ -19360,7 +19363,8 @@ var Collapsible = _react2.default.createClass({
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
         transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-        hasBeenOpened: false
+        hasBeenOpened: false,
+        overflow: 'hidden'
       };
     }
   },
@@ -19441,7 +19445,8 @@ var Collapsible = _react2.default.createClass({
     this.setState({
       isClosed: true,
       shouldSwitchAutoOnNextCycle: true,
-      height: this.refs.inner.offsetHeight
+      height: this.refs.inner.offsetHeight,
+      overflow: 'hidden'
     });
   },
 
@@ -19458,7 +19463,8 @@ var Collapsible = _react2.default.createClass({
     this.setState({
       height: 'auto',
       transition: 'none',
-      shouldSwitchAutoOnNextCycle: false
+      shouldSwitchAutoOnNextCycle: false,
+      overflow: this.props.overflowWhenOpen
     });
   },
 
@@ -19482,7 +19488,7 @@ var Collapsible = _react2.default.createClass({
       WebkitTransition: this.state.transition,
       msTransition: this.state.transition,
       transition: this.state.transition,
-      overflow: 'hidden'
+      overflow: this.state.overflow
     };
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
