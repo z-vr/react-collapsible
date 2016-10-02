@@ -6,8 +6,11 @@ React component to wrap content in Collapsible element with trigger to open and 
 
 It's like an accordion, but where any number of sections can be open at the same time.
 
-## New in version 1.1.0
-* `lazyRender` props added to allow lazy-loading of Collapsile content.
+## New in version 1.2.0
+* `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
+
+### 1.1.0 Notes
+* `lazyRender` props added to allow lazy-loading of Collapsible content.
 
 ### 1.0.0 Notes
 * Trigger can now be a React Element as well as a string.
