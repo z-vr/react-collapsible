@@ -6,8 +6,11 @@ React component to wrap content in Collapsible element with trigger to open and 
 
 It's like an accordion, but where any number of sections can be open at the same time.
 
-## New in version 1.1.0
-* `lazyRender` props added to allow lazy-loading of Collapsile content.
+## New in version 1.2.0
+* `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
+
+### 1.1.0 Notes
+* `lazyRender` props added to allow lazy-loading of Collapsible content.
 
 ### 1.0.0 Notes
 * Trigger can now be a React Element as well as a string.
@@ -78,6 +81,9 @@ Define this to override the click handler for the trigger link.
 
 ### `lazyRender` | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
+
+### `overflowWhenOpen` | *enum* | default: 'hidden'
+The CSS overflow property once the Collapsible is open. This can be any one of the valid CSS values of `'hidden'`, `'visible'`, `'auto'`, `'scroll'`, `'inherit'`, `'initial'`, or `'unset'`
 
 ## CSS Styles
 In theory you don't need any CSS to get this to work, but let's face it, it'd be pretty rubbish without it.
