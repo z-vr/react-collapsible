@@ -1,63 +1,22 @@
 import React from 'react';
 
+class Collapsible extends React.Component {
+  
+  constructor(props) {
+    super(props);
 
-var Collapsible = React.createClass({
-
-  //Set validation for prop types
-  propTypes: {
-    transitionTime: React.PropTypes.number,
-    easing: React.PropTypes.string,
-    open: React.PropTypes.bool,
-    classParentString: React.PropTypes.string,
-    accordionPosition: React.PropTypes.number,
-    handleTriggerClick: React.PropTypes.func,
-    trigger: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
-    ]),
-    triggerWhenOpen:React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
-    ]),
-    lazyRender: React.PropTypes.bool,
-    overflowWhenOpen: React.PropTypes.oneOf([
-      'hidden',
-      'visible',
-      'auto',
-      'scroll',
-      'inherit',
-      'initial',
-      'unset'
-    ])
-  },
-
-  //If no transition time or easing is passed then default to this
-  getDefaultProps: function() {
-    return {
-      transitionTime: 400,
-      easing: 'linear',
-      open: false,
-      classParentString: 'Collapsible',
-      lazyRender: false,
-      overflowWhenOpen: 'hidden'
-    };
-  },
-
-  //Defaults the dropdown to be closed
-  getInitialState: function(){
-
-    if(this.props.open){
-      return {
+    // Set up state
+    if (props.open) {
+      this.state = {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
         hasBeenOpened: true,
         overflow: this.props.overflowWhenOpen
-      }
-    }
-    else{
-      return {
+      };
+    } else {
+      this.state = {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
@@ -66,11 +25,15 @@ var Collapsible = React.createClass({
         overflow: 'hidden'
       }
     }
-  },
+
+    // Bind methods
+    this.handleTriggerClick = this.handleTriggerClick.bind(this); 
+  }
+  
 
   // Taken from https://github.com/EvandroLG/transitionEnd/
   // Determines which prefixed event to listen for
-  whichTransitionEnd: function(element){
+  whichTransitionEnd(element){
       var transitions = {
           'WebkitTransition' : 'webkitTransitionEnd',
           'MozTransition'    : 'transitionend',
@@ -83,9 +46,10 @@ var Collapsible = React.createClass({
               return transitions[t];
           }
       }
-  },
+  }
 
-  componentDidMount: function() {
+
+  componentDidMount() {
     //Set up event listener to listen to transitionend so we can switch the height from fixed pixel to auto for much responsiveness;
     //TODO:  Once Synthetic transitionend events have been exposed in the next release of React move this funciton to a function handed to the onTransitionEnd prop
 
@@ -97,9 +61,10 @@ var Collapsible = React.createClass({
       }
 
     });
-  },
+  }
 
-  componentDidUpdate: function(prevProps) {
+
+  componentDidUpdate(prevProps) {
 
     if(this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
       //Set the height to auto to make compoenent re-render with the height set to auto.
@@ -122,10 +87,10 @@ var Collapsible = React.createClass({
         this.closeCollapsible();
       }
     }
-  },
+  }
 
 
-  handleTriggerClick: function(event) {
+  handleTriggerClick(event) {
 
     event.preventDefault();
 
@@ -142,36 +107,40 @@ var Collapsible = React.createClass({
       }
     }
 
-  },
+  }
 
-  closeCollapsible: function() {
+
+  closeCollapsible() {
     this.setState({
       isClosed: true,
       shouldSwitchAutoOnNextCycle: true,
       height: this.refs.inner.offsetHeight,
       overflow: 'hidden',
     });
-  },
+  }
 
-  openCollasible: function() {
+
+  openCollasible() {
     this.setState({
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
       isClosed: false,
       hasBeenOpened: true
     });
-  },
+  }
 
-  makeResponsive: function() {
+
+  makeResponsive() {
     this.setState({
       height: 'auto',
       transition: 'none',
       shouldSwitchAutoOnNextCycle: false,
       overflow: this.props.overflowWhenOpen
     });
-  },
+  }
 
-  prepareToOpen: function() {
+
+  prepareToOpen() {
     //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
     window.setTimeout(() => {
       this.setState({
@@ -180,9 +149,21 @@ var Collapsible = React.createClass({
         transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
       });
     }, 50);
-  },
+  }
 
-  render: function () {
+
+  renderTrigger() {
+    //If user wants different text when tray is open
+    var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined) ? this.props.triggerWhenOpen : this.props.trigger;
+    var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
+
+    return (
+      <span className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{trigger}</span>
+    );
+  }
+
+
+  render() {
 
     var dropdownStyle = {
       height: this.state.height,
@@ -192,11 +173,6 @@ var Collapsible = React.createClass({
       overflow: this.state.overflow
     }
 
-    var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
-
-    //If user wants different text when tray is open
-    var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined) ? this.props.triggerWhenOpen : this.props.trigger;
-
     // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
     var children = this.props.children;
     if(this.props.lazyRender)
@@ -205,7 +181,7 @@ var Collapsible = React.createClass({
 
     return(
       <div className={this.props.classParentString}>
-        <span className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{trigger}</span>
+        {this.renderTrigger()}
         <div className={this.props.classParentString + "__contentOuter" } ref="outer" style={dropdownStyle}>
           <div className={this.props.classParentString + "__contentInner"} ref="inner">
             {children}
@@ -215,6 +191,44 @@ var Collapsible = React.createClass({
     );
   }
 
-});
+}
+
+//Set validation for prop types
+Collapsible.PropTypes = {
+  transitionTime: React.PropTypes.number,
+  easing: React.PropTypes.string,
+  open: React.PropTypes.bool,
+  classParentString: React.PropTypes.string,
+  accordionPosition: React.PropTypes.number,
+  handleTriggerClick: React.PropTypes.func,
+  trigger: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]),
+  triggerWhenOpen:React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]),
+  lazyRender: React.PropTypes.bool,
+  overflowWhenOpen: React.PropTypes.oneOf([
+    'hidden',
+    'visible',
+    'auto',
+    'scroll',
+    'inherit',
+    'initial',
+    'unset'
+  ])
+}
+
+//If no transition time or easing is passed then default to this
+Collapsible.defaultProps = {
+  transitionTime: 400,
+  easing: 'linear',
+  open: false,
+  classParentString: 'Collapsible',
+  lazyRender: false,
+  overflowWhenOpen: 'hidden'
+}
 
 export default Collapsible;
