@@ -116,7 +116,7 @@ var Collapsible = React.createClass({
       console.log('Open state changed!', this.props.accordionPosition);
 
       if(this.props.open === true) {
-        this.openCollasible();
+        this.openCollapsible();
       }
       else {
         this.closeCollapsible();
@@ -135,7 +135,7 @@ var Collapsible = React.createClass({
     else{
 
       if(this.state.isClosed === true){
-        this.openCollasible();
+        this.openCollapsible();
       }
       else {
         this.closeCollapsible();
@@ -153,7 +153,7 @@ var Collapsible = React.createClass({
     });
   },
 
-  openCollasible: function() {
+  openCollapsible: function() {
     this.setState({
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
