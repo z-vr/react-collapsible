@@ -110,6 +110,11 @@ Set this to true to postpone rendering of all of the content of the Collapsible 
 ### `overflowWhenOpen` | *enum* | default: 'hidden'
 The CSS overflow property once the Collapsible is open. This can be any one of the valid CSS values of `'hidden'`, `'visible'`, `'auto'`, `'scroll'`, `'inherit'`, `'initial'`, or `'unset'`
 
+### `triggerSibling` | *element* | default: null
+Escape hatch to add arbitrary content on the trigger without triggering expand/collapse. It's up to you to style it as needed. This is inserted in component tree and DOM directly
+after `.Collapsible__trigger`
+
+
 ## CSS Styles
 In theory you don't need any CSS to get this to work, but let's face it, it'd be pretty rubbish without it.
 
