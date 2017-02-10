@@ -212,7 +212,7 @@ var Collapsible = React.createClass({
       + this.state.isClosed ? this.props.triggerClassName : this.prop.triggerOpenedClassName;
 
     return(
-      <div className={this.props.classParentString + ' ' + this.state.isClosed ? this.props.className : this.prop.openedClassName}>
+      <div className={this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName)}>
         <span className={triggerClassName} onClick={this.handleTriggerClick}>{trigger}</span>
             {this.props.triggerSibling && (
                 <span className={this.props.classParentString  + "__trigger-sibling"}>{this.props.triggerSibling}</span>
