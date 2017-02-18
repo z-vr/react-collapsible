@@ -8,7 +8,7 @@ It's like an accordion, but where any number of sections can be open at the same
 
 Supported by [Browserstack](https://www.browserstack.com).
 
-![Browserstack Logo](example/img/browserstack-logo.svg "Browserstack")
+![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
 ## New in version 1.2.0
 * `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
