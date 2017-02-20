@@ -10,7 +10,11 @@ Supported by [Browserstack](https://www.browserstack.com).
 
 ![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
-## New in version 1.2.0
+## What's new in 1.3.0
+* You can now disable triggers programatically using the `triggerDisabled` prop.
+* More granular control over CSS classes allowing easier integration to your chosen CSS framework.
+
+### 1.2.0 Notes
 * `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
 
 ### 1.1.0 Notes
@@ -86,7 +90,7 @@ Use this to overwrite the parent CSS class for the Collapsible component parts. 
 ### `className` | *string* 
 `.Collapsible` element (root) when closed
 
-### `openedclassName` | *string* 
+### `openedClassName` | *string* 
 `.Collapsible` element (root) when open
 
 ### `triggerClassName` | *string* 

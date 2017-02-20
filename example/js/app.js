@@ -189,6 +189,40 @@ var App = _react2.default.createClass({
         _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=4' }),
         _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=5' }),
         _react2.default.createElement('img', { src: 'http://loremflickr.com/320/240?random=6' })
+      ),
+      _react2.default.createElement(
+        _Collapsible2.default,
+        { trigger: 'You can customise the CSS a bit more too',
+          triggerClassName: 'CustomTriggerCSS',
+          triggerOpenedClassName: 'CustomTriggerCSS--open',
+          contentOuterClassName: 'CustomOuterContentCSS',
+          contentInnerClassName: 'CustomInnerContentCSS'
+        },
+        _react2.default.createElement(
+          'p',
+          null,
+          'This is the collapsible content. It can be any element or React component you like.'
+        )
+      ),
+      _react2.default.createElement(
+        _Collapsible2.default,
+        { trigger: 'You can disable them programatically too', open: true, triggerDisabled: true },
+        _react2.default.createElement(
+          'p',
+          null,
+          'This one has it\'s trigger disabled in the open position. Nifty.'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'You also get the ',
+          _react2.default.createElement(
+            'strong',
+            null,
+            'is-disabled'
+          ),
+          ' CSS class so you can style it.'
+        )
       )
     );
   }
@@ -1476,25 +1510,40 @@ var process = module.exports = {};
 var cachedSetTimeout;
 var cachedClearTimeout;
 
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
 (function () {
     try {
-        cachedSetTimeout = setTimeout;
-    } catch (e) {
-        cachedSetTimeout = function () {
-            throw new Error('setTimeout is not defined');
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
         }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
     }
     try {
-        cachedClearTimeout = clearTimeout;
-    } catch (e) {
-        cachedClearTimeout = function () {
-            throw new Error('clearTimeout is not defined');
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
         }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
     }
 } ())
 function runTimeout(fun) {
     if (cachedSetTimeout === setTimeout) {
         //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
         return setTimeout(fun, 0);
     }
     try {
@@ -1515,6 +1564,11 @@ function runTimeout(fun) {
 function runClearTimeout(marker) {
     if (cachedClearTimeout === clearTimeout) {
         //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
         return clearTimeout(marker);
     }
     try {
@@ -19325,10 +19379,16 @@ var Collapsible = _react2.default.createClass({
     easing: _react2.default.PropTypes.string,
     open: _react2.default.PropTypes.bool,
     classParentString: _react2.default.PropTypes.string,
-    accordionPosition: _react2.default.PropTypes.number,
+    openedClassName: _react2.default.PropTypes.string,
+    triggerClassName: _react2.default.PropTypes.string,
+    triggerOpenedClassName: _react2.default.PropTypes.string,
+    contentOuterClassName: _react2.default.PropTypes.string,
+    contentInnerClassName: _react2.default.PropTypes.string,
+    accordionPosition: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.number]),
     handleTriggerClick: _react2.default.PropTypes.func,
     trigger: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
     triggerWhenOpen: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.element]),
+    triggerDisabled: _react2.default.PropTypes.bool,
     lazyRender: _react2.default.PropTypes.bool,
     overflowWhenOpen: _react2.default.PropTypes.oneOf(['hidden', 'visible', 'auto', 'scroll', 'inherit', 'initial', 'unset'])
   },
@@ -19340,8 +19400,15 @@ var Collapsible = _react2.default.createClass({
       easing: 'linear',
       open: false,
       classParentString: 'Collapsible',
+      triggerDisabled: false,
       lazyRender: false,
-      overflowWhenOpen: 'hidden'
+      overflowWhenOpen: 'hidden',
+      openedClassName: '',
+      triggerClassName: '',
+      triggerOpenedClassName: '',
+      contentOuterClassName: '',
+      contentInnerClassName: '',
+      className: ''
     };
   },
 
@@ -19415,10 +19482,8 @@ var Collapsible = _react2.default.createClass({
 
     //If there has been a change in the open prop (controlled by accordion)
     if (prevProps.open != this.props.open) {
-      console.log('Open state changed!', this.props.accordionPosition);
-
       if (this.props.open === true) {
-        this.openCollasible();
+        this.openCollapsible();
       } else {
         this.closeCollapsible();
       }
@@ -19429,12 +19494,16 @@ var Collapsible = _react2.default.createClass({
 
     event.preventDefault();
 
+    if (this.props.triggerDisabled) {
+      return;
+    }
+
     if (this.props.handleTriggerClick) {
       this.props.handleTriggerClick(this.props.accordionPosition);
     } else {
 
       if (this.state.isClosed === true) {
-        this.openCollasible();
+        this.openCollapsible();
       } else {
         this.closeCollapsible();
       }
@@ -19450,7 +19519,7 @@ var Collapsible = _react2.default.createClass({
     });
   },
 
-  openCollasible: function openCollasible() {
+  openCollapsible: function openCollapsible() {
     this.setState({
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
@@ -19492,6 +19561,7 @@ var Collapsible = _react2.default.createClass({
     };
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
+    var disabledClass = this.props.triggerDisabled ? 'is-disabled' : '';
 
     //If user wants different text when tray is open
     var trigger = this.state.isClosed === false && this.props.triggerWhenOpen !== undefined ? this.props.triggerWhenOpen : this.props.trigger;
@@ -19500,26 +19570,33 @@ var Collapsible = _react2.default.createClass({
     var children = this.props.children;
     if (this.props.lazyRender) if (!this.state.hasBeenOpened) children = null;
 
+    var triggerClassName = this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass;
+
+    if (this.state.isClosed) {
+      triggerClassName = triggerClassName + ' ' + this.props.triggerClassName;
+    } else {
+      triggerClassName = triggerClassName + ' ' + this.props.triggerOpenedClassName;
+    }
+
     return _react2.default.createElement(
       'div',
-      { className: this.props.classParentString },
+      { className: this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName) },
       _react2.default.createElement(
         'span',
-        { className: this.props.classParentString + "__trigger" + ' ' + openClass, onClick: this.handleTriggerClick },
+        { className: triggerClassName.trim(), onClick: this.handleTriggerClick },
         trigger
       ),
       _react2.default.createElement(
         'div',
-        { className: this.props.classParentString + "__contentOuter", ref: 'outer', style: dropdownStyle },
+        { className: this.props.classParentString + "__contentOuter" + ' ' + this.props.contentOuterClassName, ref: 'outer', style: dropdownStyle },
         _react2.default.createElement(
           'div',
-          { className: this.props.classParentString + "__contentInner", ref: 'inner' },
+          { className: this.props.classParentString + "__contentInner" + ' ' + this.props.contentInnerClassName, ref: 'inner' },
           children
         )
       )
     );
   }
-
 });
 
 exports.default = Collapsible;
