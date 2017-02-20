@@ -68,6 +68,9 @@ The text or element to appear in the trigger link.
 ### `triggerWhenOpen` | *string* or *React Element*
 Optional trigger text or element to change to when the Collapsible is open.
 
+### `triggerDisabled` | *boolean* | default: false
+Disables the trigger handler if `true`. Note: this has no effect other than applying the `.is-disabled` CSS class if you've provided a `handleTriggerClick` prop.
+
 ### `transitionTime` | *number* | default: 400
 The number of milliseconds for the open/close transition to take.
 
@@ -126,6 +129,7 @@ The trigger link that controls the opening and closing of the component.
 The state of the component is also reflected on this element with the modifier classes;
 - `is-closed` | Closed state
 - `is-open` | Open setState
+- `is-disabled` | Trigger is disabled
 
 ### `.Collapsible__contentOuter`
 The outer container that hides the content. This is set to `overflow: hidden` within the javascript but everything else about it is for you to change.
