@@ -19,6 +19,7 @@ var Collapsible = React.createClass({
       React.PropTypes.string,
       React.PropTypes.element
     ]),
+    triggerDisabled: React.PropTypes.bool,
     lazyRender: React.PropTypes.bool,
     overflowWhenOpen: React.PropTypes.oneOf([
       'hidden',
@@ -38,6 +39,7 @@ var Collapsible = React.createClass({
       easing: 'linear',
       open: false,
       classParentString: 'Collapsible',
+      triggerDisabled: false,
       lazyRender: false,
       overflowWhenOpen: 'hidden'
     };
@@ -127,6 +129,10 @@ var Collapsible = React.createClass({
 
     event.preventDefault();
 
+    if(this.props.triggerDisabled) {
+      return
+    }
+
     if(this.props.handleTriggerClick) {
       this.props.handleTriggerClick(this.props.accordionPosition);
     }
@@ -191,6 +197,7 @@ var Collapsible = React.createClass({
     }
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
+    var disabledClass = this.props.triggerDisabled ? 'is-disabled' : ''
 
     //If user wants different text when tray is open
     var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined) ? this.props.triggerWhenOpen : this.props.trigger;
@@ -203,7 +210,7 @@ var Collapsible = React.createClass({
 
     return(
       <div className={this.props.classParentString}>
-        <span className={this.props.classParentString + "__trigger" + ' ' + openClass} onClick={this.handleTriggerClick}>{trigger}</span>
+        <span className={this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass} onClick={this.handleTriggerClick}>{trigger}</span>
         <div className={this.props.classParentString + "__contentOuter" } ref="outer" style={dropdownStyle}>
           <div className={this.props.classParentString + "__contentInner"} ref="inner">
             {children}
