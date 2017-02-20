@@ -80,8 +80,29 @@ Set to true if you want the Collapsible to begin in the open state. You can also
 ### `classParentString` | *string* | default: Collapsible
 Use this to overwrite the parent CSS class for the Collapsible component parts. Read more in the CSS section below.
 
+### `className` | *string* 
+`.Collapsible` element (root) when closed
+
+### `openedclassName` | *string* 
+`.Collapsible` element (root) when open
+
+### `triggerClassName` | *string* 
+`.Collapsible__trigger` element (root) when closed
+
+### `triggerOpenedClassName` | *string* 
+`.Collapsible__trigger` element (root) when open
+
+### `contentOuterClassName` | *string* 
+`.Collapsible__contentOuter` element
+
+### `contentInnerClassName` | *string* 
+`.Collapsible__contentInner` element
+
+### `accordionPosition` | *string*
+Unique key used to identify the `Collapse` instance when used in an accordion.
+
 ### `handleTriggerClick` | *function*
-Define this to override the click handler for the trigger link.
+Define this to override the click handler for the trigger link. Takes one parameter, which is `props.accordionPosition`.
 
 ### `lazyRender` | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
@@ -112,6 +133,8 @@ The outer container that hides the content. This is set to `overflow: hidden` wi
 ### `.Collapsible__contentInner`
 This is a container for the content passed into the compoenent. This keeps everything nice and neat and allows the component to do all it's whizzy calculations.
 
+
+If you're using a CSS framework such as Foundation or Bootstrap, you probably want to use their classes instead of styling `.Collapsible`. See Properties above.
 
 ## Example
 An example of the component in action is available in the example folder. To see it in action you can run `npm install` and then run `gulp`. This will compile all the JSX into JS and open the example page using BrowserSync.
