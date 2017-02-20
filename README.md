@@ -10,7 +10,11 @@ Supported by [Browserstack](https://www.browserstack.com).
 
 ![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
-## New in version 1.2.0
+## What's new in 1.3.0
+* You can now disable triggers programatically using the `triggerDisabled` prop.
+* More granular control over CSS classes allowing easier integration to your chosen CSS framework.
+
+### 1.2.0 Notes
 * `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
 
 ### 1.1.0 Notes
@@ -68,6 +72,9 @@ The text or element to appear in the trigger link.
 ### `triggerWhenOpen` | *string* or *React Element*
 Optional trigger text or element to change to when the Collapsible is open.
 
+### `triggerDisabled` | *boolean* | default: false
+Disables the trigger handler if `true`. Note: this has no effect other than applying the `.is-disabled` CSS class if you've provided a `handleTriggerClick` prop.
+
 ### `transitionTime` | *number* | default: 400
 The number of milliseconds for the open/close transition to take.
 
@@ -80,8 +87,29 @@ Set to true if you want the Collapsible to begin in the open state. You can also
 ### `classParentString` | *string* | default: Collapsible
 Use this to overwrite the parent CSS class for the Collapsible component parts. Read more in the CSS section below.
 
+### `className` | *string* 
+`.Collapsible` element (root) when closed
+
+### `openedClassName` | *string* 
+`.Collapsible` element (root) when open
+
+### `triggerClassName` | *string* 
+`.Collapsible__trigger` element (root) when closed
+
+### `triggerOpenedClassName` | *string* 
+`.Collapsible__trigger` element (root) when open
+
+### `contentOuterClassName` | *string* 
+`.Collapsible__contentOuter` element
+
+### `contentInnerClassName` | *string* 
+`.Collapsible__contentInner` element
+
+### `accordionPosition` | *string*
+Unique key used to identify the `Collapse` instance when used in an accordion.
+
 ### `handleTriggerClick` | *function*
-Define this to override the click handler for the trigger link.
+Define this to override the click handler for the trigger link. Takes one parameter, which is `props.accordionPosition`.
 
 ### `lazyRender` | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
@@ -105,6 +133,7 @@ The trigger link that controls the opening and closing of the component.
 The state of the component is also reflected on this element with the modifier classes;
 - `is-closed` | Closed state
 - `is-open` | Open setState
+- `is-disabled` | Trigger is disabled
 
 ### `.Collapsible__contentOuter`
 The outer container that hides the content. This is set to `overflow: hidden` within the javascript but everything else about it is for you to change.
@@ -112,6 +141,8 @@ The outer container that hides the content. This is set to `overflow: hidden` wi
 ### `.Collapsible__contentInner`
 This is a container for the content passed into the compoenent. This keeps everything nice and neat and allows the component to do all it's whizzy calculations.
 
+
+If you're using a CSS framework such as Foundation or Bootstrap, you probably want to use their classes instead of styling `.Collapsible`. See Properties above.
 
 ## Example
 An example of the component in action is available in the example folder. To see it in action you can run `npm install` and then run `gulp`. This will compile all the JSX into JS and open the example page using BrowserSync.

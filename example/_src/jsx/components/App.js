@@ -61,6 +61,22 @@ var App = React.createClass({
           <img src="http://loremflickr.com/320/240?random=6" />
         </Collapsible>
 
+        <Collapsible trigger="You can customise the CSS a bit more too"
+          triggerClassName="CustomTriggerCSS"
+          triggerOpenedClassName="CustomTriggerCSS--open"
+          contentOuterClassName="CustomOuterContentCSS"
+          contentInnerClassName="CustomInnerContentCSS"
+        >
+          <p>This is the collapsible content. It can be any element or React component you like.</p>
+        </Collapsible>
+
+        <Collapsible trigger="You can disable them programatically too" open triggerDisabled>
+          <p>This one has it's trigger disabled in the open position. Nifty.</p>
+          <p>You also get the <strong>is-disabled</strong> CSS class so you can style it.</p>
+        </Collapsible>
+
+
+
       </div>
     );
   }
