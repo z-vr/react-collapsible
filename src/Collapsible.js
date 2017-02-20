@@ -9,7 +9,12 @@ var Collapsible = React.createClass({
     easing: React.PropTypes.string,
     open: React.PropTypes.bool,
     classParentString: React.PropTypes.string,
-    accordionPosition: React.PropTypes.number,
+    openedClassName: React.PropTypes.string,
+      triggerClassName: React.PropTypes.string,
+      triggerOpenedClassName: React.PropTypes.string,
+      contentOuterClassName: React.PropTypes.string,
+      contentInnerClassName: React.PropTypes.string,
+    accordionPosition: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     handleTriggerClick: React.PropTypes.func,
     trigger: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -208,18 +213,20 @@ var Collapsible = React.createClass({
       if(!this.state.hasBeenOpened)
           children = null;
 
+    const triggerClassName = this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass 
+      + this.state.isClosed ? this.props.triggerClassName : this.prop.triggerOpenedClassName;
+
     return(
-      <div className={this.props.classParentString}>
-        <span className={this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass} onClick={this.handleTriggerClick}>{trigger}</span>
-        <div className={this.props.classParentString + "__contentOuter" } ref="outer" style={dropdownStyle}>
-          <div className={this.props.classParentString + "__contentInner"} ref="inner">
-            {children}
+      <div className={this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName)}>
+        <span className={triggerClassName} onClick={this.handleTriggerClick}>{trigger}</span>
+        <div className={this.props.classParentString + "__contentOuter" + ' ' + this.props.contentOuterClassName } ref="outer" style={dropdownStyle}>
+          <div className={this.props.classParentString + "__contentInner" + ' ' + this.props.contentInnerClassName} ref="inner">
+              {children}
           </div>
         </div>
       </div>
     );
   }
-
 });
 
 export default Collapsible;
