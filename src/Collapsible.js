@@ -34,7 +34,8 @@ var Collapsible = React.createClass({
       'inherit',
       'initial',
       'unset'
-    ])
+        ]),
+        triggerSibling: React.PropTypes.element
   },
 
   //If no transition time or easing is passed then default to this
@@ -53,6 +54,7 @@ var Collapsible = React.createClass({
       contentOuterClassName: '',
       contentInnerClassName: '',
       className: '',
+      triggerSibling: null,
     };
   },
 
@@ -230,6 +232,9 @@ var Collapsible = React.createClass({
     return(
       <div className={this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName)}>
         <span className={triggerClassName.trim()} onClick={this.handleTriggerClick}>{trigger}</span>
+        {this.props.triggerSibling && (
+            <span className={this.props.classParentString  + "__trigger-sibling"}>{this.props.triggerSibling}</span>
+        )}
         <div className={this.props.classParentString + "__contentOuter" + ' ' + this.props.contentOuterClassName } ref="outer" style={dropdownStyle}>
           <div className={this.props.classParentString + "__contentInner" + ' ' + this.props.contentInnerClassName} ref="inner">
               {children}
