@@ -10,7 +10,10 @@ Supported by [Browserstack](https://www.browserstack.com).
 
 ![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
-## What's new in 1.3.0
+## What's new in 1.4.0
+* Added the ability to add non-triggering elemnts to the trigger using `triggerSibling`.
+
+### 1.3.0 Notes
 * You can now disable triggers programatically using the `triggerDisabled` prop.
 * More granular control over CSS classes allowing easier integration to your chosen CSS framework.
 
