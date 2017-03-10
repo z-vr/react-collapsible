@@ -114,6 +114,12 @@ Unique key used to identify the `Collapse` instance when used in an accordion.
 ### `handleTriggerClick` | *function*
 Define this to override the click handler for the trigger link. Takes one parameter, which is `props.accordionPosition`.
 
+### `onOpen` | *function*
+Is called when the Collapsible is opening.
+
+### `onClose` | *function*
+Is called when the Collapsible is closing.
+
 ### `lazyRender` | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
 
