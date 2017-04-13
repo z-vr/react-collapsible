@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const createReactClass = require('create-react-class');
 
-var Collapsible = React.createClass({
+var Collapsible = createReactClass({
 
   //Set validation for prop types
   propTypes: {

@@ -53,6 +53,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
+    "create-react-class": "^15.5.2",
     "prop-types": "^15.5.8"
   }
 }
