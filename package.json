@@ -51,5 +51,8 @@
   "scripts": {
     "build": "babel src/Collapsible.js > dist/Collapsible.js",
     "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.8"
   }
 }
