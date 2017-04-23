@@ -1,34 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
+const createReactClass = require('create-react-class');
 
-var Collapsible = React.createClass({
+var Collapsible = createReactClass({
 
   //Set validation for prop types
   propTypes: {
-    transitionTime: React.PropTypes.number,
-    easing: React.PropTypes.string,
-    open: React.PropTypes.bool,
-    classParentString: React.PropTypes.string,
-    openedClassName: React.PropTypes.string,
-    triggerClassName: React.PropTypes.string,
-    triggerOpenedClassName: React.PropTypes.string,
-    contentOuterClassName: React.PropTypes.string,
-    contentInnerClassName: React.PropTypes.string,
-    accordionPosition: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    handleTriggerClick: React.PropTypes.func,
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    trigger: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
+    transitionTime: PropTypes.number,
+    easing: PropTypes.string,
+    open: PropTypes.bool,
+    classParentString: PropTypes.string,
+    openedClassName: PropTypes.string,
+    triggerClassName: PropTypes.string,
+    triggerOpenedClassName: PropTypes.string,
+    contentOuterClassName: PropTypes.string,
+    contentInnerClassName: PropTypes.string,
+    accordionPosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    handleTriggerClick: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    trigger: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
     ]),
-    triggerWhenOpen:React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
+    triggerWhenOpen:PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
     ]),
-    triggerDisabled: React.PropTypes.bool,
-    lazyRender: React.PropTypes.bool,
-    overflowWhenOpen: React.PropTypes.oneOf([
+    triggerDisabled: PropTypes.bool,
+    lazyRender: PropTypes.bool,
+    overflowWhenOpen: PropTypes.oneOf([
       'hidden',
       'visible',
       'auto',
@@ -37,7 +39,7 @@ var Collapsible = React.createClass({
       'initial',
       'unset',
     ]),
-    triggerSibling: React.PropTypes.element
+    triggerSibling: PropTypes.element
   },
 
   //If no transition time or easing is passed then default to this
@@ -240,13 +242,13 @@ var Collapsible = React.createClass({
     if (this.state.isClosed) {
       triggerClassName = triggerClassName + ' ' + this.props.triggerClassName;
     } else {
-      triggerClassName = triggerClassName + ' ' + this.props.triggerOpenedClassName;      
+      triggerClassName = triggerClassName + ' ' + this.props.triggerOpenedClassName;
     }
 
     return(
       <div className={this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName)}>
         <span className={triggerClassName.trim()} onClick={this.handleTriggerClick}>{trigger}</span>
-        
+
         {this.renderNonClickableTriggerElement()}
 
         <div className={this.props.classParentString + "__contentOuter" + ' ' + this.props.contentOuterClassName } ref="outer" style={dropdownStyle}>
