@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const createReactClass = require('create-react-class');
+class Collapsible extends Component {
+  render() {
+    return <div>Collapsible a</div>;
+  }
+}
 
-var Collapsible = createReactClass({
+/*
+var oldCollapsible = createReactClass({
 
   //Set validation for prop types
   propTypes: {
@@ -261,4 +266,5 @@ var Collapsible = createReactClass({
   }
 });
 
+*/
 export default Collapsible;
