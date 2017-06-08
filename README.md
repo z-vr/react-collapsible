@@ -81,7 +81,7 @@ Disables the trigger handler if `true`. Note: this has no effect other than appl
 ### `transitionTime` | *number* | default: 400
 The number of milliseconds for the open/close transition to take.
 
-### `easing` | *string* | default: 'liner'
+### `easing` | *string* | default: 'linear'
 The CSS easing method you wish to apply to the open/close transition. This string can be any valid value of CSS `transition-timing-function`. For reference view the [MDN documentation](https://developer.mozilla.org/en/docs/Web/CSS/transition-timing-function).
 
 ### `open` | *bool* | default: false
