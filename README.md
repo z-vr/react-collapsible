@@ -10,7 +10,10 @@ Supported by [Browserstack](https://www.browserstack.com).
 
 ![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
-## What's new in 1.4.0
+## What's new in 1.5.0
+* Added `onClose` and `onOpen` callback props.
+
+### 1.4.0 Notes
 * Added the ability to add non-triggering elemnts to the trigger using `triggerSibling`.
 
 ### 1.3.0 Notes
