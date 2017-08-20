@@ -10,31 +10,30 @@ class Collapsible extends Component {
     this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
 
     // Defaults the dropdown to be closed
-    if(this.props.open){
+    if (this.props.open) {
       this.state = {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
         hasBeenOpened: true,
-        overflow: this.props.overflowWhenOpen
+        overflow: this.props.overflowWhenOpen,
       }
-    }
-    else{
+    } else {
       this.state = {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
         transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
         hasBeenOpened: false,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.height === 'auto' && this.state.shouldSwitchAutoOnNextCycle === true) {
-      window.setTimeout(() => {
+      window.setTimeout(() => { // Set small timeout to ensure a true re-render
         this.setState({
           height: 0,
           overflow: 'hidden',
@@ -44,12 +43,11 @@ class Collapsible extends Component {
       }, 50);
     }
 
-    //If there has been a change in the open prop (controlled by accordion)
-    if(prevProps.open != this.props.open) {
+    // If there has been a change in the open prop (controlled by accordion)
+    if (prevProps.open !== this.props.open) {
       if(this.props.open === true) {
         this.openCollapsible();
-      }
-      else {
+      } else {
         this.closeCollapsible();
       }
     }
@@ -60,7 +58,8 @@ class Collapsible extends Component {
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
       isClosed: false,
-      hasBeenOpened: true
+      hasBeenOpened: true,
+      inTransition: true,
     });
   }
 
@@ -69,25 +68,24 @@ class Collapsible extends Component {
       shouldSwitchAutoOnNextCycle: true,
       height: this.refs.inner.offsetHeight,
       transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      inTransition: true,
     });
   }
 
   handleTriggerClick(event) {
     event.preventDefault();
 
-    if(this.props.triggerDisabled) {
+    if (this.props.triggerDisabled) {
       return
     }
 
-    if(this.props.handleTriggerClick) {
+    if (this.props.handleTriggerClick) {
       this.props.handleTriggerClick(this.props.accordionPosition);
-    }
-    else{
-      if(this.state.isClosed === true){
+    } else {
+      if (this.state.isClosed === true) {
         this.openCollapsible();
         this.props.onOpening();
-      }
-      else {
+      } else {
         this.closeCollapsible();
         this.props.onClosing();
       }
@@ -106,10 +104,11 @@ class Collapsible extends Component {
 
   handleTransitionEnd() {
     // Switch to height auto to make the container responsive
-    if(!this.state.isClosed) {
-      this.setState({ height: 'auto' });
+    if (!this.state.isClosed) {
+      this.setState({ height: 'auto', inTransition: false });
       this.props.onOpen();
     } else {
+      this.setState({ inTransition: false });
       this.props.onClose();
     }
   }
@@ -120,23 +119,22 @@ class Collapsible extends Component {
       WebkitTransition: this.state.transition,
       msTransition: this.state.transition,
       transition: this.state.transition,
-      overflow: this.state.overflow
+      overflow: this.state.overflow,
     }
 
     var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
-    var disabledClass = this.props.triggerDisabled ? 'is-disabled' : ''
+    var disabledClass = this.props.triggerDisabled ? 'is-disabled' : '';
 
     //If user wants different text when tray is open
-    var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined) ? this.props.triggerWhenOpen : this.props.trigger;
+    var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined)
+                  ? this.props.triggerWhenOpen
+                  : this.props.trigger;
 
     // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
-    var children = this.props.children;
-    if(this.props.lazyRender)
-      if(!this.state.hasBeenOpened)
-          children = null;
+    var children = (this.props.lazyRender && !this.state.hasBeenOpened) ? null : this.props.children;
 
+    // Construct CSS classes strings
     let triggerClassName = this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass;
-
     if (this.state.isClosed) {
       triggerClassName = triggerClassName + ' ' + this.props.triggerClassName;
     } else {
