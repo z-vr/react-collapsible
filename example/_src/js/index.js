@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Collapsible from '../src/Collapsible';
+import Collapsible from '../../../src/Collapsible';
+
+import '../sass/main.scss';
 
 const App = () => {
   return (
