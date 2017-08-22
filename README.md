@@ -10,24 +10,16 @@ Supported by [Browserstack](https://www.browserstack.com).
 
 ![Browserstack Logo](example/img/browserstack-logo.png "Browserstack")
 
-## What's new in 1.5.0
-* Added `onClose` and `onOpen` callback props.
+---
+## Migrating from v1.x to v2.0
+Version 2 is 100% API complete to version 1. However, there is a breaking change in the `onOpen` and `onClose` callbacks. These methods now fire at the end of the collapsing animation. There is also the addition of `onOpening` and `onClosing` callbacks which fire at the beginning of the animation. 
 
-### 1.4.0 Notes
-* Added the ability to add non-triggering elemnts to the trigger using `triggerSibling`.
+To migrate to v2 from v1 simply change the `onOpen` prop to `onOpening` and `onClose` to `onClosing`.
 
-### 1.3.0 Notes
-* You can now disable triggers programatically using the `triggerDisabled` prop.
-* More granular control over CSS classes allowing easier integration to your chosen CSS framework.
+## What's new in 2.0
+* Added `onClosing` and `onOpening` callback props.
+* Several issue fixes (#12, #21, #24)
 
-### 1.2.0 Notes
-* `overflowWhenOpen` props added to allow setting of the CSS overflow property when Collapsible is open.
-
-### 1.1.0 Notes
-* `lazyRender` props added to allow lazy-loading of Collapsible content.
-
-### 1.0.0 Notes
-* Trigger can now be a React Element as well as a string.
 
 ---
 ## Installation
