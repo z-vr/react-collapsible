@@ -108,10 +108,12 @@ class Collapsible extends Component {
   }
 
   renderNonClickableTriggerElement() {
-    if (this.props.triggerSibling) {
+    if (this.props.triggerSibling && typeof this.props.triggerSibling === 'string') {
       return (
         <span className={this.props.classParentString  + "__trigger-sibling"}>{this.props.triggerSibling}</span>
       )
+    } else if(this.props.triggerSibling) {
+      return <this.props.triggerSibling />
     }
 
     return null;
@@ -219,7 +221,10 @@ Collapsible.propTypes = {
     'initial',
     'unset',
   ]),
-  triggerSibling: PropTypes.element
+  triggerSibling: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func,
+  ]),
 }
 
 Collapsible.defaultProps = {
