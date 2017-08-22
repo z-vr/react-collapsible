@@ -26,7 +26,7 @@ class Collapsible extends Component {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+        transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
         hasBeenOpened: false,
         overflow: 'hidden',
         inTransition: false,
@@ -64,7 +64,7 @@ class Collapsible extends Component {
     this.setState({
       shouldSwitchAutoOnNextCycle: true,
       height: this.refs.inner.offsetHeight,
-      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
       inTransition: true,
     });
   }
@@ -79,7 +79,7 @@ class Collapsible extends Component {
   continueOpenCollapsible() {
     this.setState({
       height: this.refs.inner.offsetHeight,
-      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
+      transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
       isClosed: false,
       hasBeenOpened: true,
       inTransition: true,
@@ -110,7 +110,7 @@ class Collapsible extends Component {
   renderNonClickableTriggerElement() {
     if (this.props.triggerSibling && typeof this.props.triggerSibling === 'string') {
       return (
-        <span className={this.props.classParentString  + "__trigger-sibling"}>{this.props.triggerSibling}</span>
+        <span className={`${this.props.classParentString}__trigger-sibling`}>{this.props.triggerSibling}</span>
       )
     } else if(this.props.triggerSibling) {
       return <this.props.triggerSibling />
