@@ -151,17 +151,19 @@ class Collapsible extends Component {
     var children = (this.state.isClosed && !this.state.inTransition) ? null : this.props.children;
 
     // Construct CSS classes strings
-    let triggerClassName = this.props.classParentString + "__trigger" + ' ' + openClass + ' ' + disabledClass;
-    if (this.state.isClosed) {
-      triggerClassName = triggerClassName + ' ' + this.props.triggerClassName;
-    } else {
-      triggerClassName = triggerClassName + ' ' + this.props.triggerOpenedClassName;
-    }
+    const triggerClassString = `${this.props.classParentString}__trigger ${openClass} ${disabledClass} ${
+      this.state.isClosed ? this.props.triggerClassName : this.props.triggerOpenedClassName
+    }`;
+    const parentClassString = `${this.props.classParentString} ${
+      this.state.isClosed ? this.props.className : this.props.openedClassName
+    }`;
+    const outerClassString = `${this.props.classParentString}__contentOuter ${this.props.contentOuterClassName}`;
+    const innerClassString = `${this.props.classParentString}__contentInner ${this.props.contentInnerClassName}`;
 
     return(
-      <div className={this.props.classParentString + ' ' + (this.state.isClosed ? this.props.className : this.props.openedClassName)}>
+      <div className={parentClassString.trim()}>
         <span 
-          className={triggerClassName.trim()} 
+          className={triggerClassString.trim()} 
           onClick={this.handleTriggerClick}>
           {trigger}
         </span>
@@ -169,16 +171,16 @@ class Collapsible extends Component {
         {this.renderNonClickableTriggerElement()}
 
         <div 
-          className={this.props.classParentString + "__contentOuter" + ' ' + this.props.contentOuterClassName } 
+          className={outerClassString.trim()} 
           ref="outer" 
           style={dropdownStyle}
           onTransitionEnd={this.handleTransitionEnd}
         >
           <div
-            className={this.props.classParentString + "__contentInner" + ' ' + this.props.contentInnerClassName}
+            className={innerClassString.trim()}
             ref="inner"
           >
-              {children}
+            {children}
           </div>
         </div>
       </div>

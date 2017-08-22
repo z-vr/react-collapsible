@@ -53,12 +53,12 @@ const App = () => {
 
       <Collapsible lazyRender transitionTime={600} trigger="What happens if there's a shed-load of content?" easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'} overflowWhenOpen="visible">
         <p>Add the prop of <strong style={{ fontWeight: 'bold' }}>lazyRender</strong> and the content will only be rendered when the trigger is pressed</p>
-        <img src="http://loremflickr.com/320/240?random=1" />
-        <img src="http://loremflickr.com/320/240?random=2" />
-        <img src="http://loremflickr.com/320/240?random=3" />
-        <img src="http://loremflickr.com/320/240?random=4" />
-        <img src="http://loremflickr.com/320/240?random=5" />
-        <img src="http://loremflickr.com/320/240?random=6" />
+        <img src="https://lorempixel.com/320/240?random=1" />
+        <img src="https://lorempixel.com/320/240?random=2" />
+        <img src="https://lorempixel.com/320/240?random=3" />
+        <img src="https://lorempixel.com/320/240?random=4" />
+        <img src="https://lorempixel.com/320/240?random=5" />
+        <img src="https://lorempixel.com/320/240?random=6" />
       </Collapsible>
 
       <Collapsible trigger="You can customise the CSS a bit more too"
