@@ -122,7 +122,7 @@ class Collapsible extends Component {
   handleTransitionEnd() {
     // Switch to height auto to make the container responsive
     if (!this.state.isClosed) {
-      this.setState({ height: 'auto', inTransition: false });
+      this.setState({ height: 'auto', overflow: this.props.overflowWhenOpen, inTransition: false });
       this.props.onOpen();
     } else {
       this.setState({ inTransition: false });
