@@ -39,9 +39,9 @@
     "build": "babel src/Collapsible.js > dist/Collapsible.js",
     "prepublish": "npm run build"
   },
-  "dependencies": {
+  "peerDependencies": {
     "prop-types": "^15.5.8",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "~15 || ~16",
+    "react-dom": "~15 || ~16"
   }
 }
