@@ -156,13 +156,13 @@ The state of the component is also reflected on this element with the modifier c
 The outer container that hides the content. This is set to `overflow: hidden` within the javascript but everything else about it is for you to change.
 
 ### `.Collapsible__contentInner`
-This is a container for the content passed into the compoenent. This keeps everything nice and neat and allows the component to do all it's whizzy calculations.
+This is a container for the content passed into the component. This keeps everything nice and neat and allows the component to do all it's whizzy calculations.
 
 If you're using a CSS framework such as Foundation or Bootstrap, you probably want to use their classes instead of styling `.Collapsible`. See Properties above.
 
 ---
 ## Example
-An example of the component in action is available in the example folder. To see it in action you can run `wepback-dev-server` which will run the webpack build and open the example.
+An example of the component in action is available in the example folder. To see it in action you can run `webpack-dev-server` which will run the webpack build and open the example.
 
 ---
 ## Licence
