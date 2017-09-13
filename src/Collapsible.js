@@ -11,14 +11,14 @@ class Collapsible extends Component {
     this.continueOpenCollapsible = this.continueOpenCollapsible.bind(this);
 
     // Defaults the dropdown to be closed
-    if (this.props.open) {
+    if (props.open) {
       this.state = {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
         hasBeenOpened: true,
-        overflow: this.props.overflowWhenOpen,
+        overflow: props.overflowWhenOpen,
         inTransition: false,
       }
     } else {
@@ -26,7 +26,7 @@ class Collapsible extends Component {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
+        transition: `height ${props.transitionTime}ms ${props.easing}`,
         hasBeenOpened: false,
         overflow: 'hidden',
         inTransition: false,
@@ -122,7 +122,7 @@ class Collapsible extends Component {
   handleTransitionEnd() {
     // Switch to height auto to make the container responsive
     if (!this.state.isClosed) {
-      this.setState({ height: 'auto', inTransition: false });
+      this.setState({ height: 'auto', overflow: this.props.overflowWhenOpen, inTransition: false });
       this.props.onOpen();
     } else {
       this.setState({ inTransition: false });
@@ -148,7 +148,10 @@ class Collapsible extends Component {
                   : this.props.trigger;
 
     // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
-    var children = (this.state.isClosed && !this.state.inTransition) ? null : this.props.children;
+    var children = this.props.lazyRender
+      && !this.state.hasBeenOpened
+      && this.state.isClosed
+      && !this.state.inTransition ? null : this.props.children;
 
     // Construct CSS classes strings
     const triggerClassString = `${this.props.classParentString}__trigger ${openClass} ${disabledClass} ${
@@ -162,17 +165,17 @@ class Collapsible extends Component {
 
     return(
       <div className={parentClassString.trim()}>
-        <span 
-          className={triggerClassString.trim()} 
+        <span
+          className={triggerClassString.trim()}
           onClick={this.handleTriggerClick}>
           {trigger}
         </span>
 
         {this.renderNonClickableTriggerElement()}
 
-        <div 
-          className={outerClassString.trim()} 
-          ref="outer" 
+        <div
+          className={outerClassString.trim()}
+          ref="outer"
           style={dropdownStyle}
           onTransitionEnd={this.handleTransitionEnd}
         >
