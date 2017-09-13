@@ -148,7 +148,10 @@ class Collapsible extends Component {
                   : this.props.trigger;
 
     // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
-    var children = (this.state.isClosed && !this.state.inTransition) ? null : this.props.children;
+    var children = this.props.lazyRender
+      && !this.state.hasBeenOpened
+      && this.state.isClosed
+      && !this.state.inTransition ? null : this.props.children;
 
     // Construct CSS classes strings
     const triggerClassString = `${this.props.classParentString}__trigger ${openClass} ${disabledClass} ${
@@ -162,17 +165,17 @@ class Collapsible extends Component {
 
     return(
       <div className={parentClassString.trim()}>
-        <span 
-          className={triggerClassString.trim()} 
+        <span
+          className={triggerClassString.trim()}
           onClick={this.handleTriggerClick}>
           {trigger}
         </span>
 
         {this.renderNonClickableTriggerElement()}
 
-        <div 
-          className={outerClassString.trim()} 
-          ref="outer" 
+        <div
+          className={outerClassString.trim()}
+          ref="outer"
           style={dropdownStyle}
           onTransitionEnd={this.handleTransitionEnd}
         >
