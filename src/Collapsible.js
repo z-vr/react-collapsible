@@ -11,14 +11,14 @@ class Collapsible extends Component {
     this.continueOpenCollapsible = this.continueOpenCollapsible.bind(this);
 
     // Defaults the dropdown to be closed
-    if (this.props.open) {
+    if (props.open) {
       this.state = {
         isClosed: false,
         shouldSwitchAutoOnNextCycle: false,
         height: 'auto',
         transition: 'none',
         hasBeenOpened: true,
-        overflow: this.props.overflowWhenOpen,
+        overflow: props.overflowWhenOpen,
         inTransition: false,
       }
     } else {
@@ -26,7 +26,7 @@ class Collapsible extends Component {
         isClosed: true,
         shouldSwitchAutoOnNextCycle: false,
         height: 0,
-        transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
+        transition: `height ${props.transitionTime}ms ${props.easing}`,
         hasBeenOpened: false,
         overflow: 'hidden',
         inTransition: false,
@@ -122,7 +122,7 @@ class Collapsible extends Component {
   handleTransitionEnd() {
     // Switch to height auto to make the container responsive
     if (!this.state.isClosed) {
-      this.setState({ height: 'auto', inTransition: false });
+      this.setState({ height: 'auto', overflow: this.props.overflowWhenOpen, inTransition: false });
       this.props.onOpen();
     } else {
       this.setState({ inTransition: false });
