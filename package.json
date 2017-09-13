@@ -1,6 +1,6 @@
 {
   "name": "react-collapsible",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React component to wrap content in Collapsible element with trigger to open and close.",
   "keywords": [
     "react-component",
@@ -43,5 +43,9 @@
     "prop-types": "^15.5.8",
     "react": "~15 || ~16",
     "react-dom": "~15 || ~16"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }
