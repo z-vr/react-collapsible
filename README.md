@@ -16,7 +16,7 @@ Version 2 is 100% API complete to version 1. However, there is a breaking change
 
 To migrate to v2 from v1 simply change the `onOpen` prop to `onOpening` and `onClose` to `onClosing`.
 
-# What's new in version 2.0.2
+# What's new in version 2.0.3
 Issues fixed (#50, #52)
 
 ### 2.0.0 release notes
