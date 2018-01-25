@@ -101,7 +101,7 @@ Is called when the Collapsible has closed.
 Is called when the Collapsible is opening.
 
 ### **onClosing** | *function*
-Is called when the Collapsible has closing.
+Is called when the Collapsible is closing.
 
 ### **lazyRender** | *bool* | default: false
 Set this to true to postpone rendering of all of the content of the Collapsible until before it's opened for the first time
