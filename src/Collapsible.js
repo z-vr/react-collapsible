@@ -150,10 +150,11 @@ class Collapsible extends Component {
                   : this.props.trigger;
 
     // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
-    var children = this.props.lazyRender
-      && !this.state.hasBeenOpened
-      && this.state.isClosed
-      && !this.state.inTransition ? null : this.props.children;
+    var children = this.props.children;
+    if (
+      this.state.isClosed && !this.state.inTransition &&
+      ((this.props.lazyRender && !this.state.hasBeenOpened) || this.props.renderOnlyOpen)
+    ) children = null;
 
     // Construct CSS classes strings
     const triggerClassString = `${this.props.classParentString}__trigger ${openClass} ${disabledClass} ${
@@ -227,6 +228,7 @@ Collapsible.propTypes = {
   ]),
   triggerDisabled: PropTypes.bool,
   lazyRender: PropTypes.bool,
+  renderOnlyOpen: PropTypes.bool,
   overflowWhenOpen: PropTypes.oneOf([
     'hidden',
     'visible',
@@ -250,6 +252,7 @@ Collapsible.defaultProps = {
   classParentString: 'Collapsible',
   triggerDisabled: false,
   lazyRender: false,
+  renderOnlyOpen: false,
   overflowWhenOpen: 'hidden',
   openedClassName: '',
   triggerClassName: '',
